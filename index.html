@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dyanesh's Intervention</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --space-navy: #0F1419;
+            --electric-purple: #A855F7;
+            --cream: #F8F6F3;
+            --cyan: #06B6D4;
+            --spicy-red: #DC2626;
+            --tomato-orange: #EA580C;
+            --cheese-yellow: #FBBF24;
+            --transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--space-navy) 0%, #1a1f2e 100%);
+            color: var(--cream);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            @media (prefers-reduced-motion: reduce) {
+                animation: none !important;
+            }
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 700px;
+            z-index: 10;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .greeting {
+            background: linear-gradient(135deg, var(--spicy-red), var(--tomato-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #b0aca7;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .food-images {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .food-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+            transition: all var(--transition);
+            position: relative;
+        }
+
+        .food-image:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.3);
+        }
+
+        .food-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 20, 25, 0.85);
+            color: var(--cream);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .button {
+            background: linear-gradient(135deg, var(--spicy-red), #b91c1c);
+            color: var(--cream);
+            border: none;
+            padding: 1.1rem 3.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all var(--transition);
+            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.4);
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.02em;
+        }
+
+        .button:hover:not(:disabled) {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 60px rgba(220, 38, 38, 0.5);
+        }
+
+        .button:active:not(:disabled) {
+            transform: translateY(-3px);
+        }
+
+        .button:focus-visible {
+            outline: 2px solid var(--cheese-yellow);
+            outline-offset: 4px;
+        }
+
+        .button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Surprise modal */
+        .surprise-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 20, 25, 0.98);
+            backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            animation: backdropFadeIn 0.5s ease-out forwards;
+        }
+
+        .surprise-modal.active {
+            display: flex;
+            animation: backdropFadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes backdropFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .surprise-content {
+            background: linear-gradient(135deg, #1a1f2e, #0f766e);
+            border: 2px solid rgba(220, 38, 38, 0.4);
+            border-radius: 24px;
+            padding: 3.5rem 2.5rem;
+            max-width: 650px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+            animation: contentSlideUp 0.7s var(--transition) forwards;
+            opacity: 0;
+        }
+
+        @keyframes contentSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(80px) scale(0.92);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .surprise-emoji {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            animation: bounce 0.8s var(--transition) 0.3s;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-30px);
+            }
+        }
+
+        .surprise-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--spicy-red), var(--tomato-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.01em;
+        }
+
+        .surprise-message {
+            font-size: 1.3rem;
+            color: #e2e8f0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            font-weight: 500;
+            padding: 0 1rem;
+        }
+
+        .warning-highlight {
+            color: var(--cheese-yellow);
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-button {
+            background: linear-gradient(135deg, var(--electric-purple), var(--cyan));
+            color: var(--cream);
+            border: none;
+            padding: 0.9rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all var(--transition);
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 12px 24px rgba(168, 85, 247, 0.3);
+        }
+
+        .close-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 36px rgba(168, 85, 247, 0.4);
+        }
+
+        .close-button:focus-visible {
+            outline: 2px solid var(--cream);
+            outline-offset: 2px;
+        }
+
+        /* Food items in modal */
+        .modal-food-items {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .modal-food-icon {
+            font-size: 2.5rem;
+            animation: shake 0.5s ease-in-out infinite alternate;
+        }
+
+        .modal-food-icon:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .modal-food-icon:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes shake {
+            from {
+                transform: rotate(-5deg);
+            }
+            to {
+                transform: rotate(5deg);
+            }
+        }
+
+        /* Decorative elements */
+        .glow {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .glow-1 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(220, 38, 38, 0.15) 0%, transparent 70%);
+            top: -150px;
+            right: -150px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .glow-2 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(234, 88, 12, 0.1) 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            50% {
+                transform: translateY(40px) translateX(30px);
+            }
+        }
+
+        /* Spicy warning */
+        .spicy-warning {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-top: 1.5rem;
+            font-style: italic;
+            border-top: 1px solid rgba(234, 88, 12, 0.3);
+            padding-top: 1rem;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .food-image {
+                width: 120px;
+                height: 120px;
+            }
+
+            .button {
+                padding: 1rem 2.5rem;
+                font-size: 1.1rem;
+            }
+
+            .surprise-content {
+                padding: 2.5rem 1.5rem;
+                max-width: 90%;
+            }
+
+            .surprise-title {
+                font-size: 2rem;
+            }
+
+            .surprise-message {
+                font-size: 1.1rem;
+                padding: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .food-images {
+                gap: 1rem;
+            }
+
+            .food-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            .surprise-title {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative background glows -->
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <!-- Main container -->
+    <div class="container">
+        <h1><span class="greeting">Dyanesh,</span></h1>
+        <p class="subtitle">We're monitoring your questionable food choices. Peri peri powder straight from the bottle? Seriously?</p>
+
+        <div class="food-images">
+            <div class="food-image">
+                <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=300&h=300&fit=crop" alt="Peri Peri Powder">
+                <div class="image-label">Peri Peri Powder</div>
+            </div>
+            <div class="food-image">
+                <img src="https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?w=300&h=300&fit=crop" alt="Fresh Chillies">
+                <div class="image-label">Hot Chillies</div>
+            </div>
+            <div class="food-image">
+                <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=300&h=300&fit=crop" alt="Tomato Cheese Pasta">
+                <div class="image-label">Tomato Cheese Pasta</div>
+            </div>
+        </div>
+
+        <button class="button" id="surpriseBtn">Get Your Wake-up Call</button>
+
+        <p class="spicy-warning">The burning sensation in your mouth is not a feature</p>
+    </div>
+
+    <!-- Surprise modal -->
+    <div class="surprise-modal" id="surpriseModal">
+        <div class="surprise-content">
+            <div class="surprise-emoji">🛑</div>
+
+            <div class="modal-food-items">
+                <div class="modal-food-icon">🌶️</div>
+                <div class="modal-food-icon">🧂</div>
+                <div class="modal-food-icon">🍝</div>
+            </div>
+
+            <h2 class="surprise-title">INTERVENTION TIME</h2>
+
+            <p class="surprise-message">
+                <span class="warning-highlight">Dyanesh!</span> What are you doing?!
+                Licking peri peri powder straight from the bottle while eating tomato cheese pasta?
+                That's a recipe for disaster. Your taste buds need a break and your Valorant rank needs attention!
+            </p>
+
+            <p class="surprise-message">
+                Put down that spicy powder. Close the pasta box.
+                <span class="warning-highlight">Boot up Valorant RIGHT NOW.</span>
+                Your teammates are waiting, and that spicy powder isn't going to help your aim!
+            </p>
+
+            <button class="close-button" id="closeBtn">Fine, I'll Play Valorant</button>
+
+            <p class="spicy-warning">(Seriously, drinking milk won't help with peri peri powder)</p>
+        </div>
+    </div>
+
+    <script>
+        const surpriseBtn = document.getElementById('surpriseBtn');
+        const surpriseModal = document.getElementById('surpriseModal');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // Open surprise on button click
+        surpriseBtn.addEventListener('click', () => {
+            surpriseModal.classList.add('active');
+            surpriseBtn.disabled = true;
+            surpriseBtn.textContent = "Message Delivered!";
+        });
+
+        // Close surprise
+        closeBtn.addEventListener('click', () => {
+            surpriseModal.classList.remove('active');
+            surpriseBtn.disabled = false;
+            surpriseBtn.textContent = "Get Your Wake-up Call";
+            surpriseBtn.focus();
+        });
+
+        // Close on backdrop click
+        surpriseModal.addEventListener('click', (e) => {
+            if (e.target === surpriseModal) {
+                surpriseModal.classList.remove('active');
+                surpriseBtn.disabled = false;
+                surpriseBtn.textContent = "Get Your Wake-up Call";
+                surpriseBtn.focus();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && surpriseModal.classList.contains('active')) {
+                surpriseModal.classList.remove('active');
+                surpriseBtn.disabled = false;
+                surpriseBtn.textContent = "Get Your Wake-up Call";
+                surpriseBtn.focus();
+            }
+        });
+    </script>
+</body>
+</html>
